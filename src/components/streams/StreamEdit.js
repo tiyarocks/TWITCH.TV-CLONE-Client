@@ -1,4 +1,5 @@
 import React from "react"
+import _ from "lodash"
 import { connect } from "react-redux"
 import { fetchStream,editStream } from "../../actions"
 import StreamForm from "./StreamForm"
@@ -9,18 +10,19 @@ class StreamEdit extends React.Component{
     }
 
     onSubmit=(formValues)=>{
-        console.log(formValues)
+        this.props.editStream(this.props.match.params.id,formValues)
     }
     render(){
 
-        if(!this.props.stream){
+        if(!this.props.streams){
             return <div>Loading...</div>
         }
         return(
             <div> 
                 <h3>Edit a Stream</h3>
                 <StreamForm 
-                    initialValues={this.props.stream}
+                    //we are picking out he form values that we actally care about
+                    initialValues={_.pick(this.props.streams,'title','description')}
                     onSubmit={this.onSubmit}
                 />
 
